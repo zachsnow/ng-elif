@@ -10,14 +10,13 @@ scope -- obviously you can use it *within* an `ng-repeat`, or any other directiv
 Similarly, while using an `ng-if` on an `ng-include` is supported, note that
 `ng-include` introduces a new scope, so that the `ng-if` is actually not on
 the same scope as it would appear based solely on the structure of the DOM.  This
-means that the following won't work:
+means that the following won't work because, despite appearances,
+`ng-if` and `ng-else` are actually in *sibling* scopes:
 
 ```html
   <div ng-if="someTest" ng-include="'someTemplate'"></div>
   <div ng-else="someTest" ng-include="'someOtherTemplate'"></div>
 ```
-
-Because, despite appearances, `ng-if` and `ng-else` are actually in *sibling* scopes.
 
 Check out a [live demo](http://plnkr.co/edit/XSPP3jZL8eehu9G750ME?p=preview).
 
