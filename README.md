@@ -1,10 +1,10 @@
 # ng-elif
 
-A simple collection of control flow directives: `nge-if`, `nge-else-if`, and `nge-else`.
-Supports animations via `$animate`. `nge-if` can be used in on the same element as `ng-repeat`,
-just like `ng-if`. The primary caveat is that a given if/else-if/else construct
+A simple collection of control flow directives: `ng-if`, `ng-else-if`, and `ng-else`.
+Supports animations via `$animate`. `ng-if` can be used in on the same element as `ng-repeat`,
+just like the "real" `ng-if` that it overrides. The primary caveat is that a given if/else-if/else construct
 must exist in the same AngularJS scope (hence it doesn't make sense to say that either
-`nge-else-if` or `nge-else` work with `ng-repeat`, as `ng-repeat` introduces a new
+`ng-else-if` or `ng-else` work with `ng-repeat`, as `ng-repeat` introduces a new
 scope -- obviously you can use it *within* an `ng-repeat`, or any other directive). 
 
 Check out a [live demo](http://plnkr.co/edit/XSPP3jZL8eehu9G750ME?p=preview).
@@ -26,24 +26,25 @@ Check out a [live demo](http://plnkr.co/edit/XSPP3jZL8eehu9G750ME?p=preview).
   ]);
 ```
 
-* Use `nge-if`, `nge-else-if`, and `nge-else` in your templates.
+* Use `ng-if`, `ng-else-if`, and `ng-else` in your templates.  You can also
+  use `ng-elif` as an alias for `ng-else-if` if you prefer.
 
 ## Example
 
 ```html
-  <div nge-if="someCondition">
+  <div ng-if="someCondition">
     ...
   </div>
   <p>
     Some random junk in the middle.
   </p>
-  <div nge-else-if="someOther && condition">
+  <div ng-else-if="someOther && condition">
     ...
   </div>
-  <div nge-else-if="moreConditions">
+  <div ng-else-if="moreConditions">
     ...
   </div>
-  <div nge-else>
+  <div ng-else>
     ...
   </div>
   
@@ -51,8 +52,9 @@ Check out a [live demo](http://plnkr.co/edit/XSPP3jZL8eehu9G750ME?p=preview).
     More nonsense.
   </p>
   
-  <h1 nge-if="anotherIfElse">...</h1>
-  <h1 nge-else>...</h1>
+  <h1 ng-if="anotherIfElse">...</h1>
+  <h1 ng-elif="elifForPythonProgrammers">...</h1>
+  <h1 ng-else>...</h1>
 ```
 
 It's a pretty silly example I suppose.
