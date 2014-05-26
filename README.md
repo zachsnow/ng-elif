@@ -1,11 +1,23 @@
 # ng-elif
 
 A simple collection of control flow directives: `ng-if`, `ng-else-if`, and `ng-else`.
-Supports animations via `$animate`. `ng-if` can be used in on the same element as `ng-repeat`,
+
+All directives support animations via `$animate`. `ng-if` can be used in on the same element as `ng-repeat`,
 just like the "real" `ng-if` that it overrides. The primary caveat is that a given if/else-if/else construct
 must exist in the same AngularJS scope (hence it doesn't make sense to say that either
 `ng-else-if` or `ng-else` work with `ng-repeat`, as `ng-repeat` introduces a new
 scope -- obviously you can use it *within* an `ng-repeat`, or any other directive). 
+Similarly, while using an `ng-if` on an `ng-include` is supported, note that
+`ng-include` introduces a new scope, so that the `ng-if` is actually not on
+the same scope as it would appear based solely on the structure of the DOM.  This
+means that the following won't work:
+
+```html
+  <div ng-if="someTest" ng-include="'someTemplate'"></div>
+  <div ng-else="someTest" ng-include="'someOtherTemplate'"></div>
+```
+
+Because, despite appearances, `ng-if` and `ng-else` are actually in *sibling* scopes.
 
 Check out a [live demo](http://plnkr.co/edit/XSPP3jZL8eehu9G750ME?p=preview).
 

@@ -1,21 +1,6 @@
 (function(){
   var elif = angular.module('elif', []);
-  
-  // Don't use the stock ngIf directive, we'll provide our own
-  // compatible implementation.
-  elif.config([
-    '$provide',
-    function($provide) {
-      $provide.decorator('ngIfDirective', [
-        '$delegate',
-        function($delegate) {
-          $delegate.shift();
-          return $delegate;
-        }
-      ]);
-    }
-  ]);
-  
+    
   // This is copied from AngularJS because it is not
   // part of the public interface.
   var getBlockElements = function(nodes){
@@ -60,7 +45,7 @@
         create: function(scope, fn, callback){
           var conditionals = [{
             fn: fn,
-            callback: callback
+            callback: callback || angular.identity
           }];
           
           scope.$watch(function(){
@@ -125,7 +110,7 @@
     }
   ]);
   
-  // This implementation is basically ngIf hooked into the `elif` service.
+  // This implementation is basically the built-in `ng-if`, hooked into the `elif` service.
   var elifDirective = function(name, method, getter){
     elif.directive(name, [
       '$animate',
@@ -169,7 +154,7 @@
                 }
                 if(childElement){
                   previousElements = getBlockElements(childElement);
-                  $animate.leave(childElement, function(){
+                  $animate.leave(previousElements, function(){
                     previousElements = null;
                   });
                   childElement = null;
@@ -197,10 +182,26 @@
     ];
   };
   
-  elifDirective('ngIf', 'create', getter('ngIf'));
+  // We rely on the built-in `ng-if` directive to actually perform
+  // the transclusion, and simply tie it in to the `elif` service.
+  elif.directive('ngIf', [
+    '$injector',
+    'elif',
+    function($injector, elif){
+      getter = $injector.invoke(getter('ngIf'));
+      return {
+        priority: 600,
+        link: function(scope, element, attrs){
+          var watchFn = getter(scope, element, attrs);
+          elif.create(scope, watchFn);
+        }
+      }
+    }
+  ]);
   
-  elifDirective('ngElif', 'extend', getter('ngElseIf'));
+  // Else-if and else perform their own transclusions.
   elifDirective('ngElseIf', 'extend', getter('ngElseIf'));
+  elifDirective('ngElif', 'extend', getter('ngElif'));
   
   elifDirective('ngElse', 'fallthrough');
 })();
