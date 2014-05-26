@@ -1,6 +1,21 @@
 (function(){
   var elif = angular.module('elif', []);
   
+  // Don't use the stock ngIf directive, we'll provide our own
+  // compatible implementation.
+  elif.config([
+    '$provide',
+    function($provide) {
+      $provide.decorator('ngIfDirective', [
+        '$delegate',
+        function($delegate) {
+          $delegate.shift();
+          return $delegate;
+        }
+      ]);
+    }
+  ]);
+  
   // This is copied from AngularJS because it is not
   // part of the public interface.
   var getBlockElements = function(nodes){
@@ -167,29 +182,25 @@
     ]);
   };
   
-  elifDirective('ngeIf', 'create', [
-    '$parse',
-    function($parse){
-      return function(scope, element, attrs){
-        var testFn = $parse(attrs.ngeIf);
-        return function(){
-          return !!testFn(scope);
+  // Reads the attribute given by `name` and converts it to a boolean.
+  var getter = function(name){
+    return [
+      '$parse',
+      function($parse){
+        return function(scope, element, attrs){
+          var testFn = $parse(attrs[name]);
+          return function(){
+            return !!testFn(scope);
+          };
         };
-      };
-    }
-  ]);
+      }
+    ];
+  };
   
-  elifDirective('ngeElseIf', 'extend', [
-    '$parse',
-    function($parse){
-      return function(scope, element, attrs){
-        var testFn = $parse(attrs.ngeElseIf);
-        return function(){
-          return !!testFn(scope);
-        };
-      };
-    }
-  ]);
+  elifDirective('ngIf', 'create', getter('ngIf'));
   
-  elifDirective('ngeElse', 'fallthrough');
+  elifDirective('ngElif', 'extend', getter('ngElseIf'));
+  elifDirective('ngElseIf', 'extend', getter('ngElseIf'));
+  
+  elifDirective('ngElse', 'fallthrough');
 })();
