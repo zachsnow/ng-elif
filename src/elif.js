@@ -125,7 +125,6 @@
           restrict: 'A',
           priorty: 600,
           terminal: true,
-          $$tlb: true, // We want to be able to use this on an ng-repeat.
           link: function(scope, element, attrs, ctrls, transcludeFn){
             var watchFn = getter && getter(scope, element, attrs);
             var childScope;
