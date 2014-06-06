@@ -1,0 +1,23 @@
+{
+  "name": "ng-elif",
+  "version": "0.1.0",
+  "homepage": "https://github.com/zachsnow/ng-elif",
+  "authors": [
+    "Zach Snow <z@zachsnow.com>"
+  ],
+  "description": "if/elif/else directives for AngularJS",
+  "dependencies": {
+    "angular": "1.2.16"
+  },
+  "main": "src/elif.js",
+  "keywords": [
+    "ng-elif",
+    "elif"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "*.md",
+    "LICENSE"
+  ]
+}
