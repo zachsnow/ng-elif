@@ -7,7 +7,7 @@
   ],
   "description": "if/elif/else directives for AngularJS",
   "dependencies": {
-    "angular": "1.2.16"
+    "angular": "^1.2.1"
   },
   "main": "src/elif.js",
   "keywords": [
