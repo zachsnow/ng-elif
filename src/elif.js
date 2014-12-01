@@ -47,14 +47,22 @@
             fn: fn,
             callback: callback || angular.identity
           }];
+          var conditionalValues = [];
           
           scope.$watch(function(){
-            var i;
-            var index = -1;
-            
+            // Watch the boolean conditionals; we only need
+            // to run through the if/else-if/else chain if one
+            // of them changes.
+            conditionalValues.length = conditionals.length;
+            for(var i = 0, len = conditionals.length; i < len; i++){
+              conditionalValues[i] = !!conditionals[i].fn();
+            }
+            return conditionalValues;
+          }, function(conditionalValues){
             // Find first matching if/else-if.
-            for(i = 0; i < conditionals.length; i++){
-              if(conditionals[i].fn()){
+            var index = -1;
+            for(var i = 0, len = conditionals.length; i < len; i++){
+              if(conditionalValues[i]){
                 conditionals[i].callback(true);
                 index = i;
                 i++;
@@ -65,8 +73,8 @@
               }
             }
             
-            // Mark the rest of the if/else-ifs as not matched.
-            for(; i < conditionals.length; i++){
+            // Mark the rest of the else-ifs as not matched.
+            for(; i < len; i++){
               conditionals[i].callback(false);
             }
             
@@ -74,7 +82,7 @@
             conditionals.fallthrough && conditionals.fallthrough(index === -1);
             
             return index;
-          });
+          }, true); // Deep watch; we know that it is a simple list of booleans.
           
           // Keep track of if/else-if/else structures per AngularJS scope.
           if(!angular.hasOwnProperty.call(scope, 'elif.conditionals')){
