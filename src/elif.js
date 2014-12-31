@@ -126,7 +126,7 @@
       '$injector',
       'elif',
       function($animate, $document, $injector, elif){
-        getter = getter && $injector.invoke(getter);
+        var getterFn = getter && $injector.invoke(getter);
         
         return {
           transclude: 'element',
@@ -134,7 +134,7 @@
           priorty: 600,
           terminal: true,
           link: function(scope, element, attrs, ctrls, transcludeFn){
-            var watchFn = getter && getter(scope, element, attrs);
+            var watchFn = getterFn && getterFn(scope, element, attrs);
             var childScope;
             var childElement;
             var previousElements;
@@ -195,11 +195,11 @@
     '$injector',
     'elif',
     function($injector, elif){
-      getter = $injector.invoke(getter('ngIf'));
+      getterFn = $injector.invoke(getter('ngIf'));
       return {
         priority: 600,
         link: function(scope, element, attrs){
-          var watchFn = getter(scope, element, attrs);
+          var watchFn = getterFn(scope, element, attrs);
           elif.create(scope, watchFn);
         }
       }
