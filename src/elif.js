@@ -210,5 +210,6 @@
   elifDirective('ngElseIf', 'extend', getter('ngElseIf'));
   elifDirective('ngElif', 'extend', getter('ngElif'));
   
+  // Else doesn't take an argument.
   elifDirective('ngElse', 'fallthrough');
 })();
