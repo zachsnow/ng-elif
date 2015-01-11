@@ -195,7 +195,7 @@
     '$injector',
     'elif',
     function($injector, elif){
-      getterFn = $injector.invoke(getter('ngIf'));
+      var getterFn = $injector.invoke(getter('ngIf'));
       return {
         priority: 600,
         link: function(scope, element, attrs){
