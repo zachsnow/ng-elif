@@ -131,7 +131,7 @@
         return {
           transclude: 'element',
           restrict: 'A',
-          priorty: 600,
+          priority: 600,
           terminal: true,
           link: function(scope, element, attrs, ctrls, transcludeFn){
             var watchFn = getterFn && getterFn(scope, element, attrs);
