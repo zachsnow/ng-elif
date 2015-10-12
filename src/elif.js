@@ -5,14 +5,14 @@
   // part of the public interface.
   var getBlockElements = function(nodes){
     if(!nodes || !nodes.length){
-      return $();
+      return angular.element();
     }
     
     var startNode = nodes[0];
     var endNode = nodes[nodes.length - 1];
     
     if(startNode === endNode){
-      return $(startNode);
+      return angular.element(startNode);
     }
   
     var element = startNode;
@@ -27,7 +27,7 @@
     }
     while(element !== endNode);
   
-    return $(elements);
+    return angular.element(elements);
   };
   
   elif.factory('elif', [
