@@ -69,3 +69,13 @@ Check out a [live demo](http://plnkr.co/edit/XSPP3jZL8eehu9G750ME?p=preview).
 ```
 
 It's a pretty silly example I suppose.
+
+## Testing
+
+To build a release and run tests:
+
+```sh
+  $ npm install
+  $ bower install
+  $ gulp test
+```
