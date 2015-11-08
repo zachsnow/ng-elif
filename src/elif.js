@@ -139,7 +139,7 @@
             var childElement;
             var previousElements;
             
-            elif[method](scope, watchFn, function(value, conditionals){
+            elif[method](scope, watchFn, function(value){
               if(value){
                 if(!childScope){
                   childScope = scope.$new();
