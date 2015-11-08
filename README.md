@@ -70,6 +70,11 @@ Check out a [live demo](http://plnkr.co/edit/XSPP3jZL8eehu9G750ME?p=preview).
 
 It's a pretty silly example I suppose.
 
+**Note:** in the above example, contrary to what you might expect coming from a sequential
+programming language, <code>someOther && condition</code> is evaluated each digest *even if*
+<code>someCondition</code> is <code>true</code>.  Each test expression is evaluated once per
+digest *regardless* of the expressions' values.
+
 ## Testing
 
 To build a release and run tests:
