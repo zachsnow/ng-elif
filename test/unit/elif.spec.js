@@ -36,7 +36,7 @@
         return service.counts[name] || 0;
       },
       incr: function(name, value){
-        if(typeof name === 'boolean'){
+        if(arguments.length === 1){
           value = name;
           name = 'count';
         }
@@ -52,7 +52,7 @@
     function(counts){
       return {
         link: function(scope, element, attrs){
-          counts.incr(attrs.ngCountLink ? attrs.ngCountLink + 'Link' : 'link');
+          counts.incr(attrs.ngCountLink ? attrs.ngCountLink + 'Link' : 'link', true);
         }
       }
     }
