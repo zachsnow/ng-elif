@@ -1,5 +1,7 @@
 (function(){
   var elif = angular.module('elif', []);
+
+  var CONDITIONALS = 'elif.conditionals';
     
   // This is copied from AngularJS because it is not
   // part of the public interface.
@@ -35,8 +37,8 @@
       // By requiring the scope have it's own copy of `elif.conditionals`
       // we avoid if/else-if/else structures that span AngularJS scopes.
       var getConditionals = function(scope){
-        if(angular.hasOwnProperty.call(scope, 'elif.conditionals')){
-          var conditionals = scope['elif.conditionals'];
+        if(angular.hasOwnProperty.call(scope, CONDITIONALS)){
+          var conditionals = scope[CONDITIONALS];
           return conditionals[conditionals.length - 1];
         }
       };
@@ -52,43 +54,46 @@
           scope.$watch(function(){
             // Watch the boolean conditionals; we only need
             // to run through the if/else-if/else chain if one
-            // of them changes.
-            conditionalValues.length = conditionals.length;
-            for(var i = 0, len = conditionals.length; i < len; i++){
-              conditionalValues[i] = !!conditionals[i].fn();
+            // of them changes.  We can also take the chance to
+            // short-circuit when we've found our first true
+            // condition.
+            var i;
+            var len = conditionals.length;
+            conditionalValues.length = len;
+            for(i = 0; i < len; i++){
+              if((conditionalValues[i] = !!conditionals[i].fn())){
+                i++;
+                break;
+              }
+            }
+            for(; i < len; i++){
+              conditionalValues[i] = false;
             }
             return conditionalValues;
           }, function(conditionalValues){
-            // Find first matching if/else-if.
+
+            // Update each block; also find first matching if/else-if.
             var index = -1;
             for(var i = 0, len = conditionals.length; i < len; i++){
               if(conditionalValues[i]){
                 conditionals[i].callback(true);
                 index = i;
-                i++;
-                break;
               }
               else {
                 conditionals[i].callback(false);
               }
             }
-            
-            // Mark the rest of the else-ifs as not matched.
-            for(; i < len; i++){
-              conditionals[i].callback(false);
-            }
-            
+
             // Handle else, if there is one.
             conditionals.fallthrough && conditionals.fallthrough(index === -1);
-            
-            return index;
+
           }, true); // Deep watch; we know that it is a simple list of booleans.
           
           // Keep track of if/else-if/else structures per AngularJS scope.
-          if(!angular.hasOwnProperty.call(scope, 'elif.conditionals')){
-            scope['elif.conditionals'] = [];
+          if(!angular.hasOwnProperty.call(scope, CONDITIONALS)){
+            scope[CONDITIONALS] = [];
           }
-          scope['elif.conditionals'].push(conditionals);
+          scope[CONDITIONALS].push(conditionals);
         },
         extend: function(scope, fn, callback){
           var conditionals = getConditionals(scope);
