@@ -9,21 +9,7 @@
 
   var testFiles;
 
-  gulp.task('preparetesthtml', function () {
-    return gulp.src('test/unit/**/*.html')
-      .pipe($.ngHtml2js({
-        moduleName: 'test-partials',
-        prefix: '/',
-      }))
-      .pipe($.rename(function(path){
-        path.extname = '.tpl.js';
-        return path;
-      }))
-      .pipe(gulp.dest('test/unit'))
-      .pipe($.size());
-  });
-
-  gulp.task('preparetestfiles', ['preparetesthtml'], function () {
+  gulp.task('preparetestfiles', function () {
     var bowerDeps = wiredep({
       directory: 'bower_components',
       dependencies: true,
