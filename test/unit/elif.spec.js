@@ -1,4 +1,4 @@
-(function () {
+(function(){
   'use strict';
 
   var text = function(e){
@@ -38,7 +38,7 @@
     }
   ]);
 
-  describe('ng-if', function () {
+  describe('ng-if', function(){
     beforeEach(module('elif'));
     beforeEach(module('counts'));
 
@@ -87,7 +87,7 @@
 
   });
 
-  describe('ng-elif', function () {
+  describe('ng-elif', function(){
     beforeEach(module('elif'));
     beforeEach(module('counts'));
 
@@ -190,8 +190,7 @@
   });
 
 
-
-  describe('ng-else', function () {
+  describe('ng-else', function(){
     beforeEach(module('elif'));
     beforeEach(module('counts'));
 
