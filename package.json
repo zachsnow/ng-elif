@@ -1,6 +1,6 @@
 {
   "name": "ng-elif",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "if/elif/else directives for AngularJS",
   "main": "src/elif.js",
   "repository": {
@@ -8,9 +8,9 @@
     "url": "https://github.com/zachsnow/ng-elif.git"
   },
   "dependencies": {
-    "gulp": "^3.8.11"
   },
   "devDependencies": {
+    "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
     "gulp-jshint": "^1.9.4",
     "gulp-karma": "0.0.4",
